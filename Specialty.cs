@@ -2,23 +2,23 @@
 
 namespace ApplicantDirectory
 {
-    // Клас, що описує спеціальність (згідно з п. 2.2.1 Пояснювальної записки)
+    // Клас для опису спеціальності та умов вступу
     public class Specialty
     {
-        public string Title { get; set; }           // Назва спеціальності
-        public double FullTimeScore { get; set; }   // Прохідний бал (денна форма)
-        public double EveningScore { get; set; }    // Прохідний бал (вечірня форма)
-        public double ExtramuralScore { get; set; } // Прохідний бал (заочна форма)
-        public decimal TuitionFee { get; set; }     // Вартість контракту
+        public string Title { get; set; }
+        public double FullTimeScore { get; set; }
+        public double EveningScore { get; set; }
+        public double ExtramuralScore { get; set; }
+        public decimal TuitionFee { get; set; }
 
-        // Конструктор класу для зручного створення нових спеціальностей
-        public Specialty(string title, double fullTimeScore, double eveningScore, double extramuralScore, decimal tuitionFee)
+        // Ініціалізація властивостей спеціальності
+        public Specialty(string title, double fullTime, double evening, double extramural, decimal fee)
         {
             Title = title;
-            FullTimeScore = fullTimeScore;
-            EveningScore = eveningScore;
-            ExtramuralScore = extramuralScore;
-            TuitionFee = tuitionFee;
+            FullTimeScore = fullTime;
+            EveningScore = evening;
+            ExtramuralScore = extramural;
+            TuitionFee = fee;
         }
     }
 }

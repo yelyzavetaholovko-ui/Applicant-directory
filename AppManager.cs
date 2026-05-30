@@ -1,36 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Text.Json;
 
 namespace ApplicantDirectory
 {
-    // Головний клас (згідно з п. 2.2.3 Пояснювальної записки)
     public class AppManager
     {
-        // Список усіх університетів у базі даних
         public List<University> Universities { get; set; }
+        private string filePath = "database.json"; 
 
         public AppManager()
         {
             Universities = new List<University>();
         }
 
-        // Метод для пошуку спеціальності з найменшим балом (Сценарій 1.1.1)
+        // Пошук та сортування ЗВО за спеціальністю
         public List<University> FindMinScore(string specialtyTitle)
         {
-            // Пошук ВНЗ, де є така спеціальність + сортування за зростанням балу на денну ф. 
             return Universities
                 .Where(u => u.Specialties.Any(s => s.Title.Contains(specialtyTitle, StringComparison.OrdinalIgnoreCase)))
                 .OrderBy(u => u.Specialties.First(s => s.Title.Contains(specialtyTitle, StringComparison.OrdinalIgnoreCase)).FullTimeScore)
                 .ToList();
         }
 
-        // Метод для видалення університету (Сценарій 1.1.4)
-        public void RemoveUniversity(string name)
+        // Метод збереження даних у файл
+        public void SaveToFile()
         {
-            Universities.RemoveAll(u => u.Name == name);
+            string json = JsonSerializer.Serialize(Universities, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, json);
         }
 
-        // Юудуть методи SaveToFile() та LoadFromFile() для роботи з JSON/CSV
+        // Метод завантаження даних із файлу при запуску
+        public void LoadFromFile()
+        {
+            if (File.Exists(filePath))
+            {
+                string json = File.ReadAllText(filePath);
+                Universities = JsonSerializer.Deserialize<List<University>>(json) ?? new List<University>();
+            }
+        }
     }
 }
